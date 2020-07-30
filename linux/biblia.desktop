@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Biblia
+Name[pl]=Biblia
+GenericName=Biblia
+GenericName[pl]=Biblia
+Comment=Program to prepare comments to bible
+Comment[pl]=Program do przygotowywania komentarzy biblijnych
+Icon=biblia
+Exec=biblia
+Terminal=false
+Categories=Qt;KDE;
