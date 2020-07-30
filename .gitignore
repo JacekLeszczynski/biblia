@@ -1,0 +1,9 @@
+lib
+linux/usr
+binaries
+backup
+scripts
+biblia.sqlite
+biblia
+*.exe
+biblia.lps
