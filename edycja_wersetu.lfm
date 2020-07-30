@@ -1,0 +1,370 @@
+object FEditWers: TFEditWers
+  Left = 362
+  Height = 647
+  Top = 128
+  Width = 760
+  Caption = 'Edycja wersetu'
+  ClientHeight = 647
+  ClientWidth = 760
+  OnShow = FormShow
+  Position = poOwnerFormCenter
+  LCLVersion = '2.0.6.0'
+  object Label2: TLabel
+    AnchorSideLeft.Control = Label1
+    AnchorSideTop.Control = Label1
+    AnchorSideTop.Side = asrBottom
+    Left = 21
+    Height = 17
+    Top = 39
+    Width = 46
+    BorderSpacing.Left = 13
+    BorderSpacing.Top = 18
+    Caption = 'Tytuł 1:'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    AnchorSideTop.Control = Edit2
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = Edit2
+    Left = 19
+    Height = 17
+    Top = 73
+    Width = 48
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 8
+    Caption = 'Tytuł 2:'
+    ParentColor = False
+  end
+  object Label4: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Edit2
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 17
+    Top = 104
+    Width = 83
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 8
+    Caption = 'Treść wersu:'
+    ParentColor = False
+  end
+  object BitBtn1: TBitBtn
+    AnchorSideLeft.Control = Owner
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 8
+    Height = 30
+    Top = 609
+    Width = 120
+    Anchors = [akLeft, akBottom]
+    BorderSpacing.Left = 8
+    BorderSpacing.Bottom = 8
+    Caption = 'Cofnij zmiany'
+    OnClick = BitBtn1Click
+    TabOrder = 0
+  end
+  object BitBtn2: TBitBtn
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 677
+    Height = 30
+    Top = 609
+    Width = 75
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 8
+    BorderSpacing.Bottom = 8
+    Caption = 'OK'
+    OnClick = BitBtn2Click
+    TabOrder = 1
+  end
+  object uELED1: TuELED
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = BitBtn2
+    Left = 649
+    Height = 24
+    Top = 612
+    Width = 24
+    Debug = False
+    Active = False
+    LedType = ledSquare
+    Bright = True
+    Reflection = True
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 4
+    Color = clRed
+    ParentColor = False
+  end
+  object Label5: TLabel
+    AnchorSideLeft.Control = Memo1
+    AnchorSideTop.Control = Memo1
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 17
+    Top = 335
+    Width = 89
+    BorderSpacing.Top = 4
+    Caption = 'Interpretacja:'
+    ParentColor = False
+  end
+  object Edit1: TEdit
+    AnchorSideLeft.Control = Label2
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Label2
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 75
+    Height = 30
+    Top = 32
+    Width = 677
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 8
+    BorderSpacing.Right = 8
+    OnChange = _CHANGE
+    TabOrder = 2
+    Text = 'Edit1'
+  end
+  object Edit2: TEdit
+    AnchorSideLeft.Control = Edit1
+    AnchorSideTop.Control = Edit1
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Edit1
+    AnchorSideRight.Side = asrBottom
+    Left = 75
+    Height = 30
+    Top = 66
+    Width = 677
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 4
+    OnChange = _CHANGE
+    TabOrder = 3
+    Text = 'Edit2'
+  end
+  object Memo1: TMemo
+    AnchorSideLeft.Control = Label4
+    AnchorSideTop.Control = Label4
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Edit2
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 210
+    Top = 121
+    Width = 744
+    Anchors = [akTop, akLeft, akRight]
+    Lines.Strings = (
+      'Memo1'
+    )
+    OnChange = _CHANGE
+    TabOrder = 4
+  end
+  object Memo2: TMemo
+    AnchorSideLeft.Control = Label5
+    AnchorSideTop.Control = Label5
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Memo1
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = BitBtn1
+    Left = 8
+    Height = 253
+    Top = 352
+    Width = 744
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Bottom = 4
+    Lines.Strings = (
+      'Memo2'
+    )
+    OnChange = _CHANGE
+    TabOrder = 5
+  end
+  object Label1: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 8
+    Height = 17
+    Top = 4
+    Width = 41
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 4
+    Caption = 'Label1'
+    ParentColor = False
+  end
+  object dswers: TDataSource
+    AutoEdit = False
+    DataSet = wers
+    left = 632
+    top = 128
+  end
+  object wers: TZQuery
+    Connection = dm.db
+    BeforeOpen = wersBeforeOpen
+    SQL.Strings = (
+      'select'
+      '  id,rozdzial,wers,tresc,tytul1,tytul2,'
+      '  interpretacja'
+      'from wersety'
+      'where id=:id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    left = 560
+    top = 128
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    object wersid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object wersrozdzial: TLargeintField
+      FieldKind = fkData
+      FieldName = 'rozdzial'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object werswers: TLargeintField
+      FieldKind = fkData
+      FieldName = 'wers'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object werstresc: TMemoField
+      FieldKind = fkData
+      FieldName = 'tresc'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object werstytul1: TStringField
+      FieldKind = fkData
+      FieldName = 'tytul1'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 1020
+    end
+    object werstytul2: TStringField
+      FieldKind = fkData
+      FieldName = 'tytul2'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 1020
+    end
+    object wersinterpretacja: TMemoField
+      FieldKind = fkData
+      FieldName = 'interpretacja'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+  end
+  object wers_update: TZQuery
+    Connection = dm.db
+    BeforeOpen = wersBeforeOpen
+    SQL.Strings = (
+      'update wersety'
+      'set'
+      '  tresc=:tresc,'
+      '  tytul1=:t1,'
+      '  tytul2=:t2,'
+      '  interpretacja=:interpretacja'
+      'where id=:id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'tresc'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 't1'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 't2'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'interpretacja'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    left = 560
+    top = 184
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'tresc'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 't1'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 't2'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'interpretacja'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+  end
+  object mess: TExtMessage
+    Caption = '<Auto>'
+    HelpContext = 0
+    PosTop = 0
+    PosLeft = 0
+    StringToCR = '^'
+    left = 149
+    top = 134
+  end
+end

@@ -1,0 +1,448 @@
+object FNotatnik: TFNotatnik
+  Left = 352
+  Height = 492
+  Top = 132
+  Width = 670
+  Caption = 'FNotatnik'
+  ClientHeight = 492
+  ClientWidth = 670
+  OnShow = FormShow
+  LCLVersion = '2.0.10.0'
+  object Label2: TLabel
+    AnchorSideTop.Control = kczas
+    AnchorSideRight.Control = kczas
+    Left = 11
+    Height = 17
+    Top = 25
+    Width = 90
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 4
+    Caption = 'Czas dodania:'
+    Font.Color = clMaroon
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label3: TLabel
+    AnchorSideTop.Control = knazwa
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = knazwa
+    Left = 52
+    Height = 17
+    Top = 53
+    Width = 49
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 4
+    Caption = 'Nazwa:'
+    Font.Color = clMaroon
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label4: TLabel
+    AnchorSideTop.Control = kopis
+    AnchorSideRight.Control = kopis
+    Left = 67
+    Height = 17
+    Top = 80
+    Width = 34
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 4
+    Caption = 'Opis:'
+    Font.Color = clMaroon
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label5: TLabel
+    AnchorSideTop.Control = kwyrazenie
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = kwyrazenie
+    Left = 27
+    Height = 17
+    Top = 419
+    Width = 74
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 4
+    Caption = 'Wyrażenie:'
+    Font.Color = clMaroon
+    ParentColor = False
+    ParentFont = False
+  end
+  object kid: TLabel
+    AnchorSideLeft.Control = Label7
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Label7
+    Left = 105
+    Height = 17
+    Top = 4
+    Width = 19
+    BorderSpacing.Left = 4
+    Caption = 'kid'
+    ParentColor = False
+  end
+  object kczas: TLabel
+    AnchorSideLeft.Control = kid
+    AnchorSideTop.Control = kid
+    AnchorSideTop.Side = asrBottom
+    Left = 105
+    Height = 17
+    Top = 25
+    Width = 36
+    BorderSpacing.Top = 4
+    Caption = 'kczas'
+    ParentColor = False
+  end
+  object knazwa: TEdit
+    AnchorSideLeft.Control = kczas
+    AnchorSideTop.Control = kczas
+    AnchorSideTop.Side = asrBottom
+    Left = 105
+    Height = 30
+    Top = 46
+    Width = 352
+    BorderSpacing.Top = 4
+    OnChange = _CHANGE
+    TabOrder = 0
+    Text = 'knazwa'
+  end
+  object kopis: TMemo
+    AnchorSideLeft.Control = knazwa
+    AnchorSideTop.Control = knazwa
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = kwyrazenie
+    Left = 105
+    Height = 328
+    Top = 80
+    Width = 557
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Top = 4
+    BorderSpacing.Right = 8
+    Lines.Strings = (
+      'kopis'
+    )
+    OnChange = _CHANGE
+    TabOrder = 1
+  end
+  object kwyrazenie: TEdit
+    AnchorSideLeft.Control = kopis
+    AnchorSideBottom.Control = Panel1
+    Left = 105
+    Height = 30
+    Top = 412
+    Width = 298
+    Anchors = [akLeft, akBottom]
+    BorderSpacing.Top = 4
+    OnChange = _CHANGE
+    TabOrder = 2
+    Text = 'kwyrazenie'
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 442
+    Width = 670
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 50
+    ClientWidth = 670
+    TabOrder = 3
+    object BitBtn1: TBitBtn
+      AnchorSideTop.Control = Panel1
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = Panel1
+      AnchorSideRight.Side = asrBottom
+      Left = 587
+      Height = 30
+      Top = 10
+      Width = 75
+      Anchors = [akTop, akRight]
+      BorderSpacing.Right = 8
+      Caption = 'OK'
+      OnClick = BitBtn1Click
+      TabOrder = 0
+    end
+    object BitBtn2: TBitBtn
+      AnchorSideLeft.Control = Panel1
+      AnchorSideTop.Control = Panel1
+      AnchorSideTop.Side = asrCenter
+      Left = 8
+      Height = 30
+      Top = 10
+      Width = 120
+      BorderSpacing.Left = 8
+      Caption = 'Cofnij zmiany'
+      OnClick = BitBtn2Click
+      TabOrder = 1
+    end
+    object kzmiany: TuELED
+      AnchorSideLeft.Control = BitBtn2
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideTop.Control = BitBtn2
+      AnchorSideTop.Side = asrCenter
+      Left = 132
+      Height = 24
+      Top = 13
+      Width = 24
+      Debug = False
+      Active = False
+      LedType = ledSquare
+      Bright = True
+      Reflection = True
+      BorderSpacing.Left = 4
+      Color = clRed
+      ParentColor = False
+    end
+  end
+  object Label6: TLabel
+    AnchorSideLeft.Control = kwyrazenie
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = kwyrazenie
+    AnchorSideTop.Side = asrCenter
+    Left = 407
+    Height = 17
+    Top = 419
+    Width = 159
+    BorderSpacing.Left = 4
+    Caption = 'Wyrażenie wyszukiwane'
+    ParentColor = False
+  end
+  object Label7: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 83
+    Height = 17
+    Top = 4
+    Width = 18
+    BorderSpacing.Left = 83
+    BorderSpacing.Top = 4
+    Caption = 'ID:'
+    Font.Color = clMaroon
+    ParentColor = False
+    ParentFont = False
+  end
+  object dbnotatnik: TZQuery
+    Connection = dm.db
+    BeforeOpen = dbnotatnikBeforeOpen
+    ReadOnly = True
+    SQL.Strings = (
+      'select * from notatnik'
+      'where id=:id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    Left = 496
+    Top = 40
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    object dbnotatnikid: TLargeintField
+      DisplayLabel = 'ID'
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object dbnotatnikinsertdt: TDateTimeField
+      DisplayLabel = 'Czas'
+      FieldKind = fkData
+      FieldName = 'insertdt'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object dbnotatniknazwa: TStringField
+      DisplayLabel = 'Nazwa'
+      FieldKind = fkData
+      FieldName = 'nazwa'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 180
+    end
+    object dbnotatnikadres: TStringField
+      DisplayLabel = 'Adres'
+      FieldKind = fkData
+      FieldName = 'adres'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 180
+    end
+    object dbnotatnikopis: TMemoField
+      DisplayLabel = 'Opis'
+      FieldKind = fkData
+      FieldName = 'opis'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object dbnotatnikwyrazenie: TStringField
+      DisplayLabel = 'Wyrażenie'
+      FieldKind = fkData
+      FieldName = 'wyrazenie'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 1020
+    end
+  end
+  object dsnotatnik: TDataSource
+    AutoEdit = False
+    DataSet = dbnotatnik
+    Left = 592
+    Top = 40
+  end
+  object dbupdate: TZQuery
+    Connection = dm.db
+    ReadOnly = True
+    SQL.Strings = (
+      'update notatnik'
+      'set'
+      '  insertdt=:czas,'
+      '  nazwa=:nazwa,'
+      '  opis=:opis,'
+      '  wyrazenie=:wyrazenie'
+      'where id=:id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'czas'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'nazwa'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'opis'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'wyrazenie'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    Left = 496
+    Top = 104
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'czas'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'nazwa'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'opis'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'wyrazenie'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+  end
+  object dbinsert: TZQuery
+    Connection = dm.db
+    ReadOnly = True
+    SQL.Strings = (
+      'insert into notatnik'
+      '(insertdt,nazwa,adres,opis,wyrazenie)'
+      'values'
+      '(:czas,:nazwa,:adres,:opis,:wyrazenie)'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'czas'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'nazwa'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'adres'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'opis'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'wyrazenie'
+        ParamType = ptUnknown
+      end>
+    Left = 496
+    Top = 168
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'czas'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'nazwa'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'adres'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'opis'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'wyrazenie'
+        ParamType = ptUnknown
+      end>
+  end
+end

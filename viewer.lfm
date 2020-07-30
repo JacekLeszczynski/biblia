@@ -1,0 +1,11 @@
+object FViewer: TFViewer
+  Left = 841
+  Height = 470
+  Top = 493
+  Width = 876
+  Caption = 'FViewer'
+  KeyPreview = True
+  OnClose = FormClose
+  OnKeyDown = FormKeyDown
+  LCLVersion = '2.0.6.0'
+end

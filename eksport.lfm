@@ -1,0 +1,131 @@
+object FEksport: TFEksport
+  Left = 624
+  Height = 134
+  Top = 586
+  Width = 435
+  AutoSize = True
+  BorderStyle = bsDialog
+  Caption = 'Eksport danych do pliku'
+  ClientHeight = 134
+  ClientWidth = 435
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poOwnerFormCenter
+  LCLVersion = '2.0.10.0'
+  object wydanie: TComboBox
+    AnchorSideLeft.Control = Label1
+    AnchorSideTop.Control = Label1
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 32
+    Top = 25
+    Width = 404
+    BorderSpacing.Right = 8
+    ItemHeight = 0
+    OnChange = wydanieChange
+    Style = csDropDownList
+    TabOrder = 0
+  end
+  object Label1: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 8
+    Height = 17
+    Top = 8
+    Width = 61
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 8
+    Caption = 'Wydanie:'
+    ParentColor = False
+  end
+  object BitBtn1: TBitBtn
+    AnchorSideTop.Control = wydanie
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = wydanie
+    AnchorSideRight.Side = asrBottom
+    Left = 337
+    Height = 30
+    Top = 65
+    Width = 75
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 8
+    BorderSpacing.Bottom = 8
+    Caption = 'Wyjście'
+    OnClick = BitBtn1Click
+    TabOrder = 1
+  end
+  object ProgressBar1: TProgressBar
+    AnchorSideLeft.Control = wydanie
+    AnchorSideTop.Control = BitBtn1
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = BitBtn2
+    Left = 8
+    Height = 20
+    Top = 70
+    Width = 232
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Right = 8
+    TabOrder = 2
+  end
+  object BitBtn2: TBitBtn
+    AnchorSideTop.Control = BitBtn1
+    AnchorSideRight.Control = BitBtn1
+    AnchorSideBottom.Control = BitBtn1
+    AnchorSideBottom.Side = asrBottom
+    Left = 248
+    Height = 30
+    Top = 65
+    Width = 85
+    Anchors = [akTop, akRight, akBottom]
+    BorderSpacing.Right = 4
+    Caption = 'Eksportuj'
+    Enabled = False
+    OnClick = BitBtn2Click
+    TabOrder = 3
+  end
+  object dbwydania: TZQuery
+    Connection = dm.db
+    ReadOnly = True
+    SQL.Strings = (
+      'select'
+      '  id,nazwa'
+      'from wydania'
+      'order by nazwa,id;'
+    )
+    Params = <>
+    Left = 32
+    Top = 8
+    object dbwydaniaid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object dbwydanianazwa: TStringField
+      FieldKind = fkData
+      FieldName = 'nazwa'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 180
+    end
+  end
+  object dswyd: TDataSource
+    AutoEdit = False
+    DataSet = dbwydania
+    Left = 108
+    Top = 8
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = '.xml'
+    Filter = 'Pliki eksportu XML|*.xml'
+    Left = 200
+    Top = 8
+  end
+end

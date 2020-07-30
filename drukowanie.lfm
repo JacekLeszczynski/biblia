@@ -1,0 +1,422 @@
+object dr: Tdr
+  OldCreateOrder = False
+  Height = 381
+  HorizontalOffset = 352
+  VerticalOffset = 132
+  Width = 411
+  object rep: TfrReportPlus
+    Dataset = wydania
+    InitialZoom = pzDefault
+    Options = []
+    PreviewButtons = [pbZoom, pbLoad, pbSave, pbPrint, pbFind, pbHelp, pbExit]
+    DataType = dtDataSource
+    Title = 'Biblia Nowej Energii'
+    Left = 24
+    Top = 16
+  end
+  object wydania: TfrDBDataSet
+    DataSet = dbwydania
+    Left = 216
+    Top = 104
+  end
+  object dbwydania: TZQuery
+    Connection = dm.db
+    AfterOpen = _OPEN_CLOSE
+    AfterClose = _OPEN_CLOSE
+    ReadOnly = True
+    SQL.Strings = (
+      'select'
+      '  id,rodzaj_id,nazwa,url,'
+      '  sort_ksiegi_nazwa'
+      'from wydania'
+      'order by nazwa,id;'
+    )
+    Params = <>
+    Left = 40
+    Top = 104
+    object dbwydaniaid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object dbwydaniarodzaj_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'rodzaj_id'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object dbwydanianazwa: TStringField
+      FieldKind = fkData
+      FieldName = 'nazwa'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 180
+    end
+    object dbwydaniaurl: TStringField
+      FieldKind = fkData
+      FieldName = 'url'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 800
+    end
+    object dbwydaniasort_ksiegi_nazwa: TSmallintField
+      FieldKind = fkData
+      FieldName = 'sort_ksiegi_nazwa'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+  end
+  object dswyd: TDataSource
+    AutoEdit = False
+    DataSet = dbwydania
+    Left = 108
+    Top = 104
+  end
+  object dbksiegi: TZQuery
+    Connection = dm.db
+    SortedFields = 'sort'
+    ReadOnly = True
+    SQL.Strings = (
+      'select'
+      '  k.id,k.nazwa,k.skrot,k.nr,'
+      '  r.nazwa as rodzaj,'
+      '  s.sort'
+      'from ksiegi k'
+      'join ksiegi_sort s on s.wydania_id=:id and s.ksiegi_id=k.id'
+      'join rodzaj r on r.id=k.rodzaj_id'
+      'where'
+      '  r.id_nadrzedne=:rodzaj_id'
+      'order by s.sort'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rodzaj_id'
+        ParamType = ptUnknown
+      end>
+    DataSource = dswyd
+    IndexFieldNames = 'sort Asc'
+    Left = 40
+    Top = 160
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rodzaj_id'
+        ParamType = ptUnknown
+      end>
+    object dbksiegiid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object dbksieginazwa: TStringField
+      FieldKind = fkData
+      FieldName = 'nazwa'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 180
+    end
+    object dbksiegiskrot: TStringField
+      FieldKind = fkData
+      FieldName = 'skrot'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 180
+    end
+    object dbksieginr: TLargeintField
+      FieldKind = fkData
+      FieldName = 'nr'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object dbksiegirodzaj: TStringField
+      FieldKind = fkData
+      FieldName = 'rodzaj'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 180
+    end
+    object dbksiegiwydanie_id: TLongintField
+      FieldKind = fkCalculated
+      FieldName = 'wydanie_id'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object dbksiegisort: TLargeintField
+      FieldKind = fkData
+      FieldName = 'sort'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+  end
+  object dsksiegi: TDataSource
+    AutoEdit = False
+    DataSet = dbksiegi
+    Left = 108
+    Top = 160
+  end
+  object dbrozdzialy: TZQuery
+    Connection = dm.db
+    SQL.Strings = (
+      'select distinct'
+      '  rozdzial as rozdzial'
+      'from wersety'
+      'where wydanie_id=:wydanie_id and ksiega_id=:id'
+      'order by rozdzial'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'wydanie_id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    DataSource = dsksiegi
+    Left = 40
+    Top = 216
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'wydanie_id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    object dbrozdzialyrozdzial: TLargeintField
+      FieldKind = fkData
+      FieldName = 'rozdzial'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object dbrozdzialywydanie_id: TLongintField
+      FieldKind = fkCalculated
+      FieldName = 'wydanie_id'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object dbrozdzialyksiega_id: TLongintField
+      FieldKind = fkCalculated
+      FieldName = 'ksiega_id'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+  object dsroz: TDataSource
+    AutoEdit = False
+    DataSet = dbrozdzialy
+    Left = 108
+    Top = 216
+  end
+  object dbtresc: TZQuery
+    Connection = dm.db
+    ReadOnly = True
+    SQL.Strings = (
+      'select'
+      '  id,ksiega_id,'
+      '  rozdzial,wers,tresc,tytul1,tytul2,'
+      '  interpretacja'
+      'from wersety'
+      'where'
+      '  wydanie_id=:wydanie_id and ksiega_id=:ksiega_id and rozdzial=:rozdzial'
+      'order by id;'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'wydanie_id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ksiega_id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rozdzial'
+        ParamType = ptUnknown
+      end>
+    DataSource = dsroz
+    Left = 40
+    Top = 280
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'wydanie_id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ksiega_id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rozdzial'
+        ParamType = ptUnknown
+      end>
+    object dbtrescid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object dbtrescksiega_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'ksiega_id'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object dbtrescrozdzial: TLargeintField
+      FieldKind = fkData
+      FieldName = 'rozdzial'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object dbtrescwers: TLargeintField
+      FieldKind = fkData
+      FieldName = 'wers'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object dbtresctresc: TMemoField
+      FieldKind = fkData
+      FieldName = 'tresc'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object dbtresctytul1: TStringField
+      FieldKind = fkData
+      FieldName = 'tytul1'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 1020
+    end
+    object dbtresctytul2: TStringField
+      FieldKind = fkData
+      FieldName = 'tytul2'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 1020
+    end
+    object dbtrescinterpretacja: TMemoField
+      FieldKind = fkData
+      FieldName = 'interpretacja'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+  end
+  object dstresc: TDataSource
+    AutoEdit = False
+    DataSet = dbtresc
+    Left = 108
+    Top = 280
+  end
+  object ksiegi: TfrDBDataSet
+    DataSet = dbksiegi
+    Left = 216
+    Top = 160
+  end
+  object rozdzialy: TfrDBDataSet
+    DataSet = dbrozdzialy
+    Left = 216
+    Top = 216
+  end
+  object wersety: TfrDBDataSet
+    DataSet = dbtresc
+    Left = 216
+    Top = 280
+  end
+end

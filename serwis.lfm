@@ -1,0 +1,376 @@
+object dm: Tdm
+  OnCreate = DataModuleCreate
+  OnDestroy = DataModuleDestroy
+  OldCreateOrder = False
+  Height = 501
+  HorizontalOffset = 344
+  VerticalOffset = 496
+  Width = 425
+  object db: TZConnection
+    ControlsCodePage = cCP_UTF8
+    AutoEncodeStrings = True
+    ClientCodepage = 'utf8'
+    Properties.Strings = (
+      'codepage=utf8'
+      'AutoEncodeStrings=ON'
+      'controls_cp=CP_UTF8'
+    )
+    BeforeConnect = dbBeforeConnect
+    HostName = 'localhost'
+    Port = 0
+    Database = '/home/tao/Projekty/apps/biblia/biblia.sqlite'
+    User = 'tao'
+    Protocol = 'sqlite-3'
+    Left = 24
+    Top = 24
+  end
+  object trans: TZTransaction
+    Database = db
+    Left = 80
+    Top = 24
+  end
+  object http: TNetSynHTTP
+    Method = mePost
+    Mimetype = '<auto>'
+    UserAgent = '<auto>'
+    Left = 208
+    Top = 24
+  end
+  object adding: TZQuery
+    Connection = db
+    SQL.Strings = (
+      'call dodaj_wers(:wydanie,:rodzaj,:ksiega,:rozdzial,:wers,:tresc,:t1,:t2,:url);'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'wydanie'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rodzaj'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ksiega'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rozdzial'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'wers'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'tresc'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 't1'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 't2'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'url'
+        ParamType = ptUnknown
+      end>
+    Left = 128
+    Top = 88
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'wydanie'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rodzaj'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ksiega'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'rozdzial'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'wers'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'tresc'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 't1'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 't2'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'url'
+        ParamType = ptUnknown
+      end>
+  end
+  object ptab: TPointerTab
+    OnCreateElement = ptabCreateElement
+    OnDestroyElement = ptabDestroyElement
+    OnReadElement = ptabReadElement
+    OnWriteElement = ptabWriteElement
+    Left = 144
+    Top = 24
+  end
+  object get_rodzaj: TZQuery
+    Connection = db
+    ReadOnly = True
+    SQL.Strings = (
+      'select id,id_nadrzedne from rodzaj'
+      'where nazwa=:nazwa or skrot=:nazwa'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'nazwa'
+        ParamType = ptUnknown
+      end>
+    Left = 40
+    Top = 160
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'nazwa'
+        ParamType = ptUnknown
+      end>
+    object get_rodzajid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object get_rodzajid_nadrzedne: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id_nadrzedne'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+  end
+  object get_ks: TZQuery
+    Connection = db
+    ReadOnly = True
+    SQL.Strings = (
+      'select k.id from ksiegi k'
+      'join rodzaj r on r.id=k.rodzaj_id'
+      'where r.id_nadrzedne=:id and k.nazwa=:nazwa'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'nazwa'
+        ParamType = ptUnknown
+      end>
+    Left = 40
+    Top = 216
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'nazwa'
+        ParamType = ptUnknown
+      end>
+    object get_ksid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+  end
+  object get_ksiegi: TZQuery
+    Connection = db
+    ReadOnly = True
+    SQL.Strings = (
+      'select'
+      '  k.id,k.nazwa,k.skrot'
+      'from ksiegi k'
+      'join rodzaj r on r.id=k.rodzaj_id'
+      'where r.id_nadrzedne=:id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    Left = 128
+    Top = 160
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    object get_ksiegiid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object get_ksieginazwa: TStringField
+      FieldKind = fkData
+      FieldName = 'nazwa'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 180
+    end
+    object get_ksiegiskrot: TStringField
+      FieldKind = fkData
+      FieldName = 'skrot'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 180
+    end
+  end
+  object add_wydanie: TZQuery
+    Connection = db
+    SQL.Strings = (
+      'INSERT INTO wydania'
+      '(rodzaj_id,nazwa,url)'
+      'VALUES'
+      '(:rodzaj,:nazwa,:url)'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'rodzaj'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'nazwa'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'url'
+        ParamType = ptUnknown
+      end>
+    Left = 40
+    Top = 88
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'rodzaj'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'nazwa'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'url'
+        ParamType = ptUnknown
+      end>
+  end
+  object lastid: TZQuery
+    Connection = db
+    SQL.Strings = (
+      '-- SELECT LAST_INSERT_ID() as id;'
+      'SELECT last_insert_rowid() as id;'
+    )
+    Params = <>
+    Left = 208
+    Top = 88
+    object lastidid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+  end
+  object ksiega2id: TZQuery
+    Connection = db
+    ReadOnly = True
+    SQL.Strings = (
+      'select rodzaj_id from ksiegi'
+      'where id=:id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    Left = 208
+    Top = 160
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    object ksiega2idrodzaj_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'rodzaj_id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+  end
+end
