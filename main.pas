@@ -942,6 +942,7 @@ end;
 
 procedure TFMain.FormCreate(Sender: TObject);
 begin
+  Caption:='Biblia ('+dm.GetVersion+')';
   l_wydania:=TStringList.Create;
   l_ksiegi:=TStringList.Create;
   SetConfDir('pisma-starozytne');

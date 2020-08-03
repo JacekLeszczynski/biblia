@@ -49,6 +49,7 @@ type
     lastid: TZQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
+    procedure dbAfterConnect(Sender: TObject);
     procedure dbBeforeConnect(Sender: TObject);
     procedure ptabCreateElement(Sender: TObject; var AWskaznik: Pointer);
     procedure ptabDestroyElement(Sender: TObject; var AWskaznik: Pointer);
@@ -59,6 +60,7 @@ type
     procedure zeruj(var aKontrolka: TArchitekt);
     procedure konwersja(aText: TStrings);
   public
+    function GetVersion: string;
     function GetLastID: integer;
     function pilot_wczytaj: TArchitektPilot;
     procedure wygeneruj_plik(nazwa: string = '');
@@ -70,10 +72,12 @@ type
 var
   dm: Tdm;
 
+function IsString(aStr: string): boolean;
+
 implementation
 
 uses
-  ecode, lconvencoding, synacode, inifiles;
+  ecode, lconvencoding, synacode, inifiles, cverinfo;
 
 {$R *.lfm}
 
@@ -94,6 +98,11 @@ var
   end;
   element: TElement;
 
+function IsString(aStr: string): boolean;
+begin
+  result:=trim(aStr)<>'';
+end;
+
 { Tdm }
 
 procedure Tdm.DataModuleCreate(Sender: TObject);
@@ -105,6 +114,11 @@ end;
 procedure Tdm.DataModuleDestroy(Sender: TObject);
 begin
   db.Disconnect;
+end;
+
+procedure Tdm.dbAfterConnect(Sender: TObject);
+begin
+  trans.SqlitePragmaForeignKeys(true);
 end;
 
 procedure Tdm.dbBeforeConnect(Sender: TObject);
@@ -176,6 +190,16 @@ begin
     aText.Delete(i);
     aText.Insert(i,s);
   end;
+end;
+
+function Tdm.GetVersion: string;
+var
+  v1,v2,v3,v4: integer;
+begin
+  GetProgramVersion(v1,v2,v3,v4);
+  if v4>0 then result:=IntToStr(v1)+'.'+IntToStr(v2)+'.'+IntToStr(v3)+'-'+IntToStr(v4) else
+  if v3>0 then result:=IntToStr(v1)+'.'+IntToStr(v2)+'.'+IntToStr(v3) else
+  if v2>0 then result:=IntToStr(v1)+'.'+IntToStr(v2) else result:=IntToStr(v1)+'.'+IntToStr(v2);
 end;
 
 function Tdm.GetLastID: integer;

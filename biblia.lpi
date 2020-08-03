@@ -175,28 +175,34 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="7">
+    <RequiredPackages Count="9">
       <Item1>
-        <PackageName Value="lazreport"/>
+        <PackageName Value="Abbrevia"/>
       </Item1>
       <Item2>
-        <PackageName Value="uEControls"/>
+        <PackageName Value="pl_ExCompress"/>
       </Item2>
       <Item3>
-        <PackageName Value="FCL"/>
+        <PackageName Value="lazreport"/>
       </Item3>
       <Item4>
-        <PackageName Value="FrameViewer09"/>
+        <PackageName Value="uEControls"/>
       </Item4>
       <Item5>
-        <PackageName Value="ExtLazarus"/>
+        <PackageName Value="FCL"/>
       </Item5>
       <Item6>
-        <PackageName Value="zcomponent"/>
+        <PackageName Value="FrameViewer09"/>
       </Item6>
       <Item7>
-        <PackageName Value="LCL"/>
+        <PackageName Value="ExtLazarus"/>
       </Item7>
+      <Item8>
+        <PackageName Value="zcomponent"/>
+      </Item8>
+      <Item9>
+        <PackageName Value="LCL"/>
+      </Item9>
     </RequiredPackages>
     <Units Count="7">
       <Unit0>

@@ -1,13 +1,13 @@
 object FEksport: TFEksport
-  Left = 624
-  Height = 134
-  Top = 586
-  Width = 435
+  Left = 303
+  Height = 511
+  Top = 185
+  Width = 534
   AutoSize = True
   BorderStyle = bsDialog
   Caption = 'Eksport danych do pliku'
-  ClientHeight = 134
-  ClientWidth = 435
+  ClientHeight = 511
+  ClientWidth = 534
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -66,6 +66,7 @@ object FEksport: TFEksport
     Width = 232
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Right = 8
+    Smooth = True
     TabOrder = 2
   end
   object BitBtn2: TBitBtn
@@ -94,8 +95,8 @@ object FEksport: TFEksport
       'order by nazwa,id;'
     )
     Params = <>
-    Left = 32
-    Top = 8
+    Left = 40
+    Top = 104
     object dbwydaniaid: TLargeintField
       FieldKind = fkData
       FieldName = 'id'
@@ -119,13 +120,672 @@ object FEksport: TFEksport
   object dswyd: TDataSource
     AutoEdit = False
     DataSet = dbwydania
-    Left = 108
-    Top = 8
+    Left = 120
+    Top = 104
   end
   object SaveDialog1: TSaveDialog
-    DefaultExt = '.xml'
-    Filter = 'Pliki eksportu XML|*.xml'
-    Left = 200
-    Top = 8
+    DefaultExt = '.zip'
+    Filter = 'Pliki eksportu *.zip|*.zip'
+    Left = 456
+    Top = 24
+  end
+  object master: TDSMaster
+    DataSource = ds_all
+    Items.Strings = (
+      'ds_wydanie'
+      'ds_rwyd'
+      'ds_rodzaj'
+      'ds_ksiegi'
+      'ds_ksort'
+      'ds_wersy'
+    )
+    Left = 40
+    Top = 168
+  end
+  object all: TZQuery
+    Connection = dm.db
+    SQL.Strings = (
+      'select * from v_wersy'
+      'where wydanie_id=:id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    Left = 120
+    Top = 168
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    object allwydanie_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'wydanie_id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object allrodzaj_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'rodzaj_id'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object allksiega_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'ksiega_id'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object allid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+  object ds_all: TDataSource
+    AutoEdit = False
+    DataSet = all
+    Left = 208
+    Top = 168
+  end
+  object s_wyd: TZQuery
+    Connection = dm.db
+    SQL.Strings = (
+      'select * from wydania'
+      'where id=:wydanie_id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'wydanie_id'
+        ParamType = ptUnknown
+      end>
+    DataSource = ds_all
+    Left = 120
+    Top = 224
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'wydanie_id'
+        ParamType = ptUnknown
+      end>
+    object s_wydid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object s_wydrodzaj_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'rodzaj_id'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object s_wyddata_importu: TDateField
+      FieldKind = fkData
+      FieldName = 'data_importu'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object s_wydnazwa: TStringField
+      FieldKind = fkData
+      FieldName = 'nazwa'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      Size = 180
+    end
+    object s_wydurl: TStringField
+      FieldKind = fkData
+      FieldName = 'url'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object s_wydopis: TMemoField
+      FieldKind = fkData
+      FieldName = 'opis'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object s_wydkomentarz: TMemoField
+      FieldKind = fkData
+      FieldName = 'komentarz'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object s_wydsort_ksiegi_nazwa: TLargeintField
+      FieldKind = fkData
+      FieldName = 'sort_ksiegi_nazwa'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+  end
+  object ds_wydanie: TDataSource
+    AutoEdit = False
+    DataSet = s_wyd
+    Left = 208
+    Top = 224
+  end
+  object s_rodz: TZQuery
+    Connection = dm.db
+    SQL.Strings = (
+      'select * from rodzaj'
+      'where id=:rodzaj_id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'rodzaj_id'
+        ParamType = ptUnknown
+      end>
+    DataSource = ds_all
+    Left = 120
+    Top = 280
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'rodzaj_id'
+        ParamType = ptUnknown
+      end>
+    object s_rodzid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object s_rodznazwa: TStringField
+      FieldKind = fkData
+      FieldName = 'nazwa'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      Size = 180
+    end
+    object s_rodzskrot: TStringField
+      FieldKind = fkData
+      FieldName = 'skrot'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 180
+    end
+    object s_rodzid_nadrzedne: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id_nadrzedne'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+  object ds_rodzaj: TDataSource
+    AutoEdit = False
+    DataSet = s_rodz
+    Left = 208
+    Top = 280
+  end
+  object s_ks: TZQuery
+    Connection = dm.db
+    SQL.Strings = (
+      'select'
+      '  :wydanie_id as wydanie_id,'
+      '  *'
+      'from ksiegi'
+      'where id=:ksiega_id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'wydanie_id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ksiega_id'
+        ParamType = ptUnknown
+      end>
+    DataSource = ds_all
+    Left = 120
+    Top = 328
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'wydanie_id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ksiega_id'
+        ParamType = ptUnknown
+      end>
+    object s_kswydanie_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'wydanie_id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object s_ksid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object s_ksrodzaj_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'rodzaj_id'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object s_ksnr: TLargeintField
+      FieldKind = fkData
+      FieldName = 'nr'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object s_ksnazwa: TStringField
+      FieldKind = fkData
+      FieldName = 'nazwa'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 180
+    end
+    object s_ksskrot: TStringField
+      FieldKind = fkData
+      FieldName = 'skrot'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 180
+    end
+    object s_ksurl: TStringField
+      FieldKind = fkData
+      FieldName = 'url'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+    object s_ksopis: TMemoField
+      FieldKind = fkData
+      FieldName = 'opis'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object s_kskomentarz: TMemoField
+      FieldKind = fkData
+      FieldName = 'komentarz'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+  end
+  object ds_ksiegi: TDataSource
+    AutoEdit = False
+    DataSet = s_ks
+    Left = 208
+    Top = 328
+  end
+  object s_wersy: TZQuery
+    Connection = dm.db
+    SQL.Strings = (
+      'select * from wersety'
+      'where id=:id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    DataSource = ds_all
+    Left = 120
+    Top = 384
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    object s_wersyid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object s_wersywydanie_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'wydanie_id'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object s_wersyrodzaj_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'rodzaj_id'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object s_wersyksiega_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'ksiega_id'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object s_wersyrozdzial: TLargeintField
+      FieldKind = fkData
+      FieldName = 'rozdzial'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object s_wersywers: TLargeintField
+      FieldKind = fkData
+      FieldName = 'wers'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object s_wersytresc: TMemoField
+      FieldKind = fkData
+      FieldName = 'tresc'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object s_wersytytul1: TStringField
+      FieldKind = fkData
+      FieldName = 'tytul1'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 1020
+    end
+    object s_wersytytul2: TStringField
+      FieldKind = fkData
+      FieldName = 'tytul2'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 1020
+    end
+    object s_wersyinterpretacja: TMemoField
+      FieldKind = fkData
+      FieldName = 'interpretacja'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object s_wersyurl: TStringField
+      FieldKind = fkData
+      FieldName = 'url'
+      Index = 10
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 800
+    end
+  end
+  object ds_wersy: TDataSource
+    AutoEdit = False
+    DataSet = s_wersy
+    Left = 208
+    Top = 384
+  end
+  object s_ksort: TZQuery
+    Connection = dm.db
+    SQL.Strings = (
+      'select * from ksiegi_sort'
+      'where wydania_id=:wydanie_id'
+      '  and ksiegi_id=:id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'wydanie_id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    DataSource = ds_ksiegi
+    Left = 296
+    Top = 328
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'wydanie_id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    object s_ksortwydania_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'wydania_id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object s_ksortksiegi_id: TLargeintField
+      FieldKind = fkData
+      FieldName = 'ksiegi_id'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object s_ksortsort: TLargeintField
+      FieldKind = fkData
+      FieldName = 'sort'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+  end
+  object ds_ksort: TDataSource
+    AutoEdit = False
+    DataSet = s_ksort
+    Left = 384
+    Top = 328
+  end
+  object s_rwyd: TZQuery
+    Connection = dm.db
+    SQL.Strings = (
+      'select * from rodzaj'
+      'where id=:rodzaj_id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'rodzaj_id'
+        ParamType = ptUnknown
+      end>
+    DataSource = ds_wydanie
+    Left = 296
+    Top = 224
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'rodzaj_id'
+        ParamType = ptUnknown
+      end>
+    object s_rodzid1: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object s_rodznazwa1: TStringField
+      FieldKind = fkData
+      FieldName = 'nazwa'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+      Size = 180
+    end
+    object s_rodzskrot1: TStringField
+      FieldKind = fkData
+      FieldName = 'skrot'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 180
+    end
+    object s_rodzid_nadrzedne1: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id_nadrzedne'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+  object ds_rwyd: TDataSource
+    AutoEdit = False
+    DataSet = s_rwyd
+    Left = 384
+    Top = 224
+  end
+  object mess: TExtMessage
+    Caption = '<Auto>'
+    HelpContext = 0
+    PosTop = 0
+    PosLeft = 0
+    StringToCR = '^'
+    Left = 321
+    Top = 149
+  end
+  object zip: TAbZipper
+    AutoSave = False
+    DeflationOption = doMaximum
+    DOSMode = False
+    Left = 418
+    Top = 125
   end
 end

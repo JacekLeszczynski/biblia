@@ -16,6 +16,7 @@ object dm: Tdm
       'controls_cp=CP_UTF8'
     )
     BeforeConnect = dbBeforeConnect
+    AfterConnect = dbAfterConnect
     HostName = 'localhost'
     Port = 0
     Database = '/home/tao/Projekty/apps/biblia/biblia.sqlite'
