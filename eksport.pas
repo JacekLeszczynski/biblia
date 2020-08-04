@@ -282,9 +282,9 @@ begin
   v_rodz_ks:='';
   v_ksiega:='';
   v_rozdzial:=-1;
-  ZSQLMonitor1.Active:=true;
+  //ZSQLMonitor1.Active:=true;
   master.Open;
-  ZSQLMonitor1.Active:=false;
+  //ZSQLMonitor1.Active:=false;
   if all.RecordCount=0 then
   begin
     mess.ShowError('Brak danych z niewiadomego powodu, przerywam!');
