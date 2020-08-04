@@ -128,7 +128,6 @@ type
     procedure DBGrid2KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
       );
     procedure dbksiegiCalcFields(DataSet: TDataSet);
-    procedure dbnotatnikBeforeDelete(DataSet: TDataSet);
     procedure dbrozdzialyCalcFields(DataSet: TDataSet);
     procedure dbwydaniaAfterScroll(DataSet: TDataSet);
     procedure Edit2KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -138,6 +137,7 @@ type
     procedure MenuItem11Click(Sender: TObject);
     procedure MenuItem12Click(Sender: TObject);
     procedure MenuItem13Click(Sender: TObject);
+    procedure MenuItem15Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
@@ -173,7 +173,7 @@ var
 implementation
 
 uses
-  ecode, serwis, lcltype, edycja_wersetu, notatnik, eksport;
+  ecode, serwis, lcltype, edycja_wersetu, notatnik, eksport, import;
 
 {$R *.lfm}
 
@@ -705,10 +705,6 @@ begin
   dbksiegiwydanie_id.AsInteger:=dbwydaniaid.AsInteger;
 end;
 
-procedure TFMain.dbnotatnikBeforeDelete(DataSet: TDataSet);
-begin
-end;
-
 procedure TFMain.dbrozdzialyCalcFields(DataSet: TDataSet);
 begin
   dbrozdzialywydanie_id.AsInteger:=dbwydaniaid.AsInteger;
@@ -779,6 +775,12 @@ procedure TFMain.MenuItem13Click(Sender: TObject);
 begin
   FEksport:=TFEksport.Create(self);
   FEksport.ShowModal;
+end;
+
+procedure TFMain.MenuItem15Click(Sender: TObject);
+begin
+  FImport:=TFImport.Create(self);
+  FImport.ShowModal;
 end;
 
 procedure TFMain.MenuItem6Click(Sender: TObject);

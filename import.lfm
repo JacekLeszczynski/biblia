@@ -1,0 +1,325 @@
+object FImport: TFImport
+  Left = 349
+  Height = 423
+  Top = 133
+  Width = 541
+  AutoSize = True
+  BorderStyle = bsDialog
+  Caption = 'Import danych z pliku'
+  ClientHeight = 423
+  ClientWidth = 541
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poOwnerFormCenter
+  LCLVersion = '2.0.10.0'
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 20
+    Top = 403
+    Width = 541
+    Color = clCream
+    Panels = <    
+      item
+        Width = 300
+      end    
+      item
+        Width = 100
+      end    
+      item
+        Width = 100
+      end>
+    ParentColor = False
+    SimplePanel = False
+  end
+  object FileImport: TFileNameEdit
+    AnchorSideLeft.Control = Label1
+    AnchorSideTop.Control = Label1
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 30
+    Top = 25
+    Width = 520
+    OnAcceptFileName = FileImportAcceptFileName
+    DialogTitle = 'Podaj plik do zaimportowania'
+    Filter = 'Pliki importu *.zip|*.zip'
+    FilterIndex = 0
+    DefaultExt = '.zip'
+    HideDirectories = False
+    ButtonWidth = 23
+    NumGlyphs = 1
+    BorderSpacing.Right = 8
+    MaxLength = 0
+    TabOrder = 1
+    OnButtonClick = FileImportButtonClick
+  end
+  object Label1: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 8
+    Height = 17
+    Top = 8
+    Width = 217
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 8
+    Caption = 'Plik z danymi do zaimportowania:'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    AnchorSideLeft.Control = FileImport
+    AnchorSideTop.Control = FileImport
+    AnchorSideTop.Side = asrBottom
+    Left = 36
+    Height = 17
+    Top = 63
+    Width = 61
+    BorderSpacing.Left = 28
+    BorderSpacing.Top = 8
+    Caption = 'Wydanie:'
+    ParentColor = False
+  end
+  object swydanie: TLabel
+    AnchorSideLeft.Control = Label2
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Label2
+    AnchorSideRight.Control = FileImport
+    AnchorSideRight.Side = asrBottom
+    Left = 101
+    Height = 20
+    Top = 63
+    Width = 427
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 4
+    Color = clMoneyGreen
+    Constraints.MinHeight = 20
+    Constraints.MinWidth = 20
+    Layout = tlCenter
+    ParentColor = False
+    Transparent = False
+  end
+  object swydanierodzaj: TLabel
+    AnchorSideLeft.Control = swydanie
+    AnchorSideTop.Control = swydanie
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = swydanie
+    AnchorSideRight.Side = asrBottom
+    Left = 101
+    Height = 20
+    Top = 84
+    Width = 427
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 1
+    Color = clMoneyGreen
+    Constraints.MinHeight = 20
+    Constraints.MinWidth = 20
+    Layout = tlCenter
+    ParentColor = False
+    Transparent = False
+  end
+  object Label3: TLabel
+    AnchorSideTop.Control = swydanierodzaj
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = swydanierodzaj
+    Left = 49
+    Height = 17
+    Top = 86
+    Width = 48
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 4
+    BorderSpacing.Right = 4
+    Caption = 'Rodzaj:'
+    ParentColor = False
+  end
+  object Label4: TLabel
+    AnchorSideTop.Control = swydanieurl
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = swydanieurl
+    Left = 67
+    Height = 17
+    Top = 107
+    Width = 30
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 4
+    BorderSpacing.Right = 4
+    Caption = 'URL:'
+    ParentColor = False
+  end
+  object swydanieurl: TLabel
+    AnchorSideLeft.Control = swydanie
+    AnchorSideTop.Control = swydanierodzaj
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = swydanie
+    AnchorSideRight.Side = asrBottom
+    Left = 101
+    Height = 20
+    Top = 105
+    Width = 427
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 1
+    Color = clMoneyGreen
+    Constraints.MinHeight = 20
+    Constraints.MinWidth = 20
+    Layout = tlCenter
+    ParentColor = False
+    Transparent = False
+  end
+  object Label5: TLabel
+    AnchorSideTop.Control = swydanieopis
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = swydanieopis
+    Left = 63
+    Height = 17
+    Top = 128
+    Width = 34
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 4
+    BorderSpacing.Right = 4
+    Caption = 'Opis:'
+    ParentColor = False
+  end
+  object swydanieopis: TLabel
+    AnchorSideLeft.Control = swydanie
+    AnchorSideTop.Control = swydanieurl
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = swydanie
+    AnchorSideRight.Side = asrBottom
+    Left = 101
+    Height = 20
+    Top = 126
+    Width = 427
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 1
+    Color = clMoneyGreen
+    Constraints.MinHeight = 20
+    Constraints.MinWidth = 20
+    Layout = tlCenter
+    ParentColor = False
+    Transparent = False
+  end
+  object Label6: TLabel
+    AnchorSideTop.Control = swydaniekomentarz
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = swydaniekomentarz
+    Left = 21
+    Height = 17
+    Top = 149
+    Width = 76
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 4
+    BorderSpacing.Right = 4
+    Caption = 'Komentarz:'
+    ParentColor = False
+  end
+  object swydaniekomentarz: TLabel
+    AnchorSideLeft.Control = swydanie
+    AnchorSideTop.Control = swydanieopis
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = swydanie
+    AnchorSideRight.Side = asrBottom
+    Left = 101
+    Height = 20
+    Top = 147
+    Width = 427
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 1
+    Color = clMoneyGreen
+    Constraints.MinHeight = 20
+    Constraints.MinWidth = 20
+    Layout = tlCenter
+    ParentColor = False
+    Transparent = False
+  end
+  object Label7: TLabel
+    AnchorSideTop.Control = srodzina
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = srodzina
+    Left = 41
+    Height = 17
+    Top = 170
+    Width = 56
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 4
+    BorderSpacing.Right = 4
+    Caption = 'Rodzina:'
+    ParentColor = False
+  end
+  object srodzina: TLabel
+    AnchorSideLeft.Control = swydanie
+    AnchorSideTop.Control = swydaniekomentarz
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = swydanie
+    AnchorSideRight.Side = asrBottom
+    Left = 101
+    Height = 20
+    Top = 168
+    Width = 427
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 1
+    Color = clMoneyGreen
+    Constraints.MinHeight = 20
+    Constraints.MinWidth = 20
+    Layout = tlCenter
+    ParentColor = False
+    Transparent = False
+  end
+  object BitBtn1: TBitBtn
+    AnchorSideTop.Control = BitBtn2
+    AnchorSideRight.Control = BitBtn2
+    Left = 374
+    Height = 30
+    Top = 196
+    Width = 75
+    Anchors = [akTop, akRight]
+    BorderSpacing.Right = 4
+    Caption = 'Importuj'
+    TabOrder = 2
+  end
+  object BitBtn2: TBitBtn
+    AnchorSideTop.Control = srodzina
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = srodzina
+    AnchorSideRight.Side = asrBottom
+    Left = 453
+    Height = 30
+    Top = 196
+    Width = 75
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 8
+    BorderSpacing.Bottom = 30
+    Caption = 'Wyjście'
+    OnClick = BitBtn2Click
+    TabOrder = 3
+  end
+  object ProgressBar1: TProgressBar
+    AnchorSideLeft.Control = FileImport
+    AnchorSideTop.Control = BitBtn1
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = BitBtn1
+    Left = 8
+    Height = 20
+    Top = 201
+    Width = 358
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Right = 8
+    TabOrder = 4
+  end
+  object mess: TExtMessage
+    Caption = '<Auto>'
+    HelpContext = 0
+    Position = psOwnerFormCenter
+    PosTop = 0
+    PosLeft = 0
+    StringToCR = '^'
+    Left = 264
+    Top = 88
+  end
+  object unzip: TAbUnZipper
+    Left = 168
+    Top = 88
+  end
+end

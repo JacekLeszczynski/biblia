@@ -302,6 +302,7 @@ begin
     if IsString(s_wydopis.AsString) then ss.Add('$wydanie_opis='+enter2x(s_wydopis.AsString));
     if IsString(s_wydkomentarz.AsString) then ss.Add('$wydanie_komentarz='+enter2x(s_wydkomentarz.AsString));
     if IsString(s_wydsort_ksiegi_nazwa.AsString) then ss.Add('$wydanie_sort_ksiegi_nazwa='+enter2x(s_wydsort_ksiegi_nazwa.AsString));
+    if IsString(s_rodznazwa1.AsString) then ss.Add('$wydanie_rodzina='+enter2x(s_rodznazwa1.AsString));
     while not all.EOF do
     begin
       (* rodzaj księgi *)

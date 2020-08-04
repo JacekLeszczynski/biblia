@@ -506,6 +506,7 @@ object FMain: TFMain
       end
       object MenuItem15: TMenuItem
         Caption = 'Imort'
+        OnClick = MenuItem15Click
       end
     end
   end
@@ -1110,7 +1111,6 @@ object FMain: TFMain
   end
   object dbnotatnik: TZQuery
     Connection = dm.db
-    BeforeDelete = dbnotatnikBeforeDelete
     SQL.Strings = (
       'select * from notatnik'
       'order by insertdt'
