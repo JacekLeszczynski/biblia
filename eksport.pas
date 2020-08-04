@@ -6,13 +6,24 @@ interface
 
 uses
   Classes, SysUtils, DB, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
-  ComCtrls, DSMaster, ExtMessage, ZDataset, AbZipper;
+  ComCtrls, ExtCtrls, CheckLst, DSMaster, ExtMessage, ZDataset, ZSqlMonitor,
+  AbZipper;
 
 type
 
   { TFEksport }
 
   TFEksport = class(TForm)
+    BitBtn3: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn5: TBitBtn;
+    ksiega: TCheckListBox;
+    dbksiegi: TZQuery;
+    dbksiegiid: TLargeintField;
+    dbksieginazwa: TStringField;
+    dsksiegi: TDataSource;
+    Label2: TLabel;
+    StatusBar1: TStatusBar;
     zip: TAbZipper;
     allid: TLargeintField;
     allksiega_id: TLargeintField;
@@ -83,14 +94,26 @@ type
     dswyd: TDataSource;
     Label1: TLabel;
     all: TZQuery;
+    ZSQLMonitor1: TZSQLMonitor;
+    procedure allBeforeOpen(DataSet: TDataSet);
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
+    procedure dbksiegiBeforeOpen(DataSet: TDataSet);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure ksiegaClickCheck(Sender: TObject);
     procedure wydanieChange(Sender: TObject);
   private
-    wid: TStrings;
+    wid,wid2: TStrings;
+    procedure refresh_ksiegi;
+    procedure ksiegi_on;
+    procedure ksiegi_off;
+    procedure ksiegi_nop;
+    function ksiega_test: boolean;
     procedure eksportuj_do_pliku(aPlik: string);
     function enter2x(s: string): string;
   public
@@ -103,7 +126,7 @@ var
 implementation
 
 uses
-  serwis;
+  serwis, ecode;
 
 {$R *.lfm}
 
@@ -112,6 +135,7 @@ uses
 procedure TFEksport.FormCreate(Sender: TObject);
 begin
   wid:=TStringList.Create;
+  wid2:=TStringList.Create;
   dbwydania.Open;
   while not dbwydania.EOF do
   begin
@@ -120,6 +144,11 @@ begin
     dbwydania.Next;
   end;
   dbwydania.Close;
+  if wydanie.Items.Count>0 then
+  begin
+    wydanie.ItemIndex:=0;
+    refresh_ksiegi;
+  end;
 end;
 
 procedure TFEksport.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -132,20 +161,110 @@ begin
   close;
 end;
 
+procedure TFEksport.allBeforeOpen(DataSet: TDataSet);
+var
+  s1,s2: string;
+  i: integer;
+begin
+  (* obliczenia *)
+  s1:=wid[wydanie.ItemIndex];
+  s2:='';
+  for i:=0 to ksiega.Count-1 do if ksiega.Checked[i] then if s2='' then s2:=wid2[i] else s2:=s2+','+wid2[i];
+  (* SQL *)
+  all.SQL.Clear;
+  all.SQL.Add('select * from v_wersy');
+  all.SQL.Add('where wydanie_id='+s1);
+  all.SQL.Add('  and ksiega_id in ('+s2+')');
+  all.SQL.Add('order by id');
+end;
+
 procedure TFEksport.BitBtn2Click(Sender: TObject);
 begin
   if wydanie.ItemIndex=-1 then exit;
   if SaveDialog1.Execute then eksportuj_do_pliku(SaveDialog1.FileName);
 end;
 
+procedure TFEksport.BitBtn3Click(Sender: TObject);
+begin
+  ksiegi_on;
+end;
+
+procedure TFEksport.BitBtn4Click(Sender: TObject);
+begin
+  ksiegi_off;
+end;
+
+procedure TFEksport.BitBtn5Click(Sender: TObject);
+begin
+  ksiegi_nop;
+end;
+
+procedure TFEksport.dbksiegiBeforeOpen(DataSet: TDataSet);
+begin
+  dbksiegi.ParamByName('id').AsInteger:=StrToInt(wid[wydanie.ItemIndex]);
+end;
+
 procedure TFEksport.FormDestroy(Sender: TObject);
 begin
   wid.Free;
+  wid2.Free;
+end;
+
+procedure TFEksport.ksiegaClickCheck(Sender: TObject);
+begin
+  BitBtn2.Enabled:=ksiega_test;
 end;
 
 procedure TFEksport.wydanieChange(Sender: TObject);
 begin
-  BitBtn2.Enabled:=wydanie.ItemIndex>-1;
+  refresh_ksiegi;
+end;
+
+procedure TFEksport.refresh_ksiegi;
+begin
+  ksiega.Clear;
+  wid2.Clear;
+  dbksiegi.Open;
+  while not dbksiegi.EOF do
+  begin
+    wid2.Add(dbksiegiid.AsString);
+    ksiega.Items.Add(dbksieginazwa.AsString);
+    dbksiegi.Next;
+  end;
+  dbksiegi.Close;
+  ksiegi_on;
+end;
+
+procedure TFEksport.ksiegi_on;
+begin
+  ksiega.CheckAll(cbChecked);
+  BitBtn2.Enabled:=ksiega.Count>0;
+end;
+
+procedure TFEksport.ksiegi_off;
+begin
+  ksiega.CheckAll(cbUnchecked);
+  BitBtn2.Enabled:=false;
+end;
+
+procedure TFEksport.ksiegi_nop;
+var
+  i: integer;
+begin
+  for i:=0 to ksiega.Items.Count-1 do ksiega.Checked[i]:=not ksiega.Checked[i];
+  BitBtn2.Enabled:=ksiega_test;
+end;
+
+function TFEksport.ksiega_test: boolean;
+var
+  i: integer;
+begin
+  result:=false;
+  for i:=0 to ksiega.Count-1 do if ksiega.Checked[i] then
+  begin
+    result:=true;
+    break;
+  end;
 end;
 
 procedure TFEksport.eksportuj_do_pliku(aPlik: string);
@@ -159,11 +278,19 @@ var
 begin
   s:=ExtractFileExt(aPlik);
   if s='' then aPlik:=aPlik+'.zip';
+  if FileExists(aPlik) then if mess.ShowConfirmationYesNo('Plik "'+aPlik+'" istnieje, czy chcesz go nadpisać?') then DeleteFile(aPlik) else exit;
   v_rodz_ks:='';
   v_ksiega:='';
   v_rozdzial:=-1;
-  all.ParamByName('id').AsInteger:=StrToInt(wid[wydanie.ItemIndex]);
+  ZSQLMonitor1.Active:=true;
   master.Open;
+  ZSQLMonitor1.Active:=false;
+  if all.RecordCount=0 then
+  begin
+    mess.ShowError('Brak danych z niewiadomego powodu, przerywam!');
+    master.Close;
+    exit;
+  end;
   ss:=TStringList.Create;
   try
     ProgressBar1.Position:=0;
@@ -187,6 +314,8 @@ begin
       (* ksiega *)
       if v_ksiega<>s_ksnazwa.AsString then
       begin
+        StatusBar1.Panels[0].Text:=enter2x(s_ksnazwa.AsString);
+        ksiega.ItemIndex:=StringToItemIndex(wid2,s_ksid.AsString);
         v_ksiega:=s_ksnazwa.AsString;
         if IsString(s_ksnazwa.AsString) then ss.Add('$ks_rodzaj='+enter2x(s_ksnazwa.AsString));
         if IsString(s_ksskrot.AsString) then ss.Add('$ks_skrot='+enter2x(s_ksskrot.AsString));
@@ -197,6 +326,7 @@ begin
       (* wersety ustawione w odpowiedniej kolejności *)
       if v_rozdzial<>s_wersyrozdzial.AsInteger then
       begin
+        StatusBar1.Panels[1].Text:='Rozdział: '+s_wersyrozdzial.AsString;
         v_rozdzial:=s_wersyrozdzial.AsInteger;
         ss.Add('$rozdzial='+enter2x(s_wersyrozdzial.AsString));
       end;
@@ -204,6 +334,7 @@ begin
       if IsString(s_wersytytul2.AsString) then ss.Add('$tytul2='+enter2x(s_wersytytul2.AsString));
       if IsString(s_wersyinterpretacja.AsString) then ss.Add('$interpretacja='+enter2x(s_wersyinterpretacja.AsString));
       if IsString(s_wersyurl.AsString) then ss.Add('url='+enter2x(s_wersyurl.AsString));
+      StatusBar1.Panels[2].Text:='Wers: '+s_wersywers.AsString;
       ss.Add(enter2x(s_wersytresc.AsString));
       all.Next;
       ProgressBar1.Position:=ProgressBar1.Position+1;
@@ -224,8 +355,12 @@ begin
       mm2.Free;
     end;
   finally
+    StatusBar1.Panels[0].Text:='';
+    StatusBar1.Panels[1].Text:='';
+    StatusBar1.Panels[2].Text:='';
     ss.Free;
     master.Close;
+    StatusBar1.SimpleText:='';
     mess.ShowInformation('Eksport wykonany.');
   end;
 end;

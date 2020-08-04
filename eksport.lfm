@@ -1,13 +1,13 @@
 object FEksport: TFEksport
-  Left = 303
-  Height = 511
-  Top = 185
-  Width = 534
+  Left = 469
+  Height = 522
+  Top = 296
+  Width = 628
   AutoSize = True
   BorderStyle = bsDialog
   Caption = 'Eksport danych do pliku'
-  ClientHeight = 511
-  ClientWidth = 534
+  ClientHeight = 522
+  ClientWidth = 628
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -40,30 +40,30 @@ object FEksport: TFEksport
     ParentColor = False
   end
   object BitBtn1: TBitBtn
-    AnchorSideTop.Control = wydanie
+    AnchorSideTop.Control = ksiega
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = wydanie
+    AnchorSideRight.Control = BitBtn5
     AnchorSideRight.Side = asrBottom
-    Left = 337
+    Left = 451
     Height = 30
-    Top = 65
+    Top = 456
     Width = 75
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 8
-    BorderSpacing.Bottom = 8
+    BorderSpacing.Bottom = 30
     Caption = 'Wyjście'
     OnClick = BitBtn1Click
     TabOrder = 1
   end
   object ProgressBar1: TProgressBar
     AnchorSideLeft.Control = wydanie
-    AnchorSideTop.Control = BitBtn1
+    AnchorSideTop.Control = BitBtn2
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = BitBtn2
     Left = 8
     Height = 20
-    Top = 70
-    Width = 232
+    Top = 461
+    Width = 346
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Right = 8
     Smooth = True
@@ -74,9 +74,9 @@ object FEksport: TFEksport
     AnchorSideRight.Control = BitBtn1
     AnchorSideBottom.Control = BitBtn1
     AnchorSideBottom.Side = asrBottom
-    Left = 248
+    Left = 362
     Height = 30
-    Top = 65
+    Top = 456
     Width = 85
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.Right = 4
@@ -84,6 +84,93 @@ object FEksport: TFEksport
     Enabled = False
     OnClick = BitBtn2Click
     TabOrder = 3
+  end
+  object Label2: TLabel
+    AnchorSideLeft.Control = wydanie
+    AnchorSideTop.Control = wydanie
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 17
+    Top = 61
+    Width = 44
+    BorderSpacing.Top = 4
+    Caption = 'Księga'
+    ParentColor = False
+  end
+  object ksiega: TCheckListBox
+    AnchorSideLeft.Control = Label2
+    AnchorSideTop.Control = Label2
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = wydanie
+    AnchorSideRight.Side = asrBottom
+    Left = 8
+    Height = 370
+    Top = 78
+    Width = 404
+    Anchors = [akTop, akLeft, akRight]
+    ItemHeight = 0
+    OnClickCheck = ksiegaClickCheck
+    TabOrder = 4
+    TopIndex = -1
+  end
+  object BitBtn3: TBitBtn
+    AnchorSideLeft.Control = ksiega
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = ksiega
+    Left = 416
+    Height = 30
+    Top = 78
+    Width = 110
+    BorderSpacing.Left = 4
+    BorderSpacing.Right = 8
+    Caption = 'All +'
+    OnClick = BitBtn3Click
+    TabOrder = 5
+  end
+  object BitBtn4: TBitBtn
+    AnchorSideLeft.Control = BitBtn3
+    AnchorSideTop.Control = BitBtn3
+    AnchorSideTop.Side = asrBottom
+    Left = 416
+    Height = 30
+    Top = 112
+    Width = 110
+    BorderSpacing.Top = 4
+    Caption = 'All -'
+    OnClick = BitBtn4Click
+    TabOrder = 6
+  end
+  object BitBtn5: TBitBtn
+    AnchorSideLeft.Control = BitBtn4
+    AnchorSideTop.Control = BitBtn4
+    AnchorSideTop.Side = asrBottom
+    Left = 416
+    Height = 30
+    Top = 146
+    Width = 110
+    BorderSpacing.Top = 4
+    Caption = 'All Negative'
+    OnClick = BitBtn5Click
+    TabOrder = 7
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 20
+    Top = 502
+    Width = 628
+    Color = clCream
+    Panels = <    
+      item
+        Width = 300
+      end    
+      item
+        Width = 100
+      end    
+      item
+        Width = 100
+      end>
+    ParentColor = False
+    SimplePanel = False
   end
   object dbwydania: TZQuery
     Connection = dm.db
@@ -140,26 +227,39 @@ object FEksport: TFEksport
       'ds_wersy'
     )
     Left = 40
-    Top = 168
+    Top = 224
   end
   object all: TZQuery
     Connection = dm.db
+    BeforeOpen = allBeforeOpen
     SQL.Strings = (
       'select * from v_wersy'
       'where wydanie_id=:id'
+      '  and ksiega_id in (:ksiegi)'
+      'order by id'
     )
     Params = <    
       item
         DataType = ftUnknown
         Name = 'id'
         ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ksiegi'
+        ParamType = ptUnknown
       end>
     Left = 120
-    Top = 168
+    Top = 224
     ParamData = <    
       item
         DataType = ftUnknown
         Name = 'id'
+        ParamType = ptUnknown
+      end    
+      item
+        DataType = ftUnknown
+        Name = 'ksiegi'
         ParamType = ptUnknown
       end>
     object allwydanie_id: TLargeintField
@@ -203,7 +303,7 @@ object FEksport: TFEksport
     AutoEdit = False
     DataSet = all
     Left = 208
-    Top = 168
+    Top = 224
   end
   object s_wyd: TZQuery
     Connection = dm.db
@@ -219,7 +319,7 @@ object FEksport: TFEksport
       end>
     DataSource = ds_all
     Left = 120
-    Top = 224
+    Top = 280
     ParamData = <    
       item
         DataType = ftUnknown
@@ -309,7 +409,7 @@ object FEksport: TFEksport
     AutoEdit = False
     DataSet = s_wyd
     Left = 208
-    Top = 224
+    Top = 280
   end
   object s_rodz: TZQuery
     Connection = dm.db
@@ -325,7 +425,7 @@ object FEksport: TFEksport
       end>
     DataSource = ds_all
     Left = 120
-    Top = 280
+    Top = 336
     ParamData = <    
       item
         DataType = ftUnknown
@@ -375,7 +475,7 @@ object FEksport: TFEksport
     AutoEdit = False
     DataSet = s_rodz
     Left = 208
-    Top = 280
+    Top = 336
   end
   object s_ks: TZQuery
     Connection = dm.db
@@ -399,7 +499,7 @@ object FEksport: TFEksport
       end>
     DataSource = ds_all
     Left = 120
-    Top = 328
+    Top = 384
     ParamData = <    
       item
         DataType = ftUnknown
@@ -504,7 +604,7 @@ object FEksport: TFEksport
     AutoEdit = False
     DataSet = s_ks
     Left = 208
-    Top = 328
+    Top = 384
   end
   object s_wersy: TZQuery
     Connection = dm.db
@@ -520,7 +620,7 @@ object FEksport: TFEksport
       end>
     DataSource = ds_all
     Left = 120
-    Top = 384
+    Top = 440
     ParamData = <    
       item
         DataType = ftUnknown
@@ -638,7 +738,7 @@ object FEksport: TFEksport
     AutoEdit = False
     DataSet = s_wersy
     Left = 208
-    Top = 384
+    Top = 440
   end
   object s_ksort: TZQuery
     Connection = dm.db
@@ -787,5 +887,65 @@ object FEksport: TFEksport
     DOSMode = False
     Left = 418
     Top = 125
+  end
+  object dbksiegi: TZQuery
+    Connection = dm.db
+    BeforeOpen = dbksiegiBeforeOpen
+    ReadOnly = True
+    SQL.Strings = (
+      'select distinct'
+      '  w.ksiega_id as id,'
+      '  k.nazwa'
+      'from v_wersy w'
+      'join ksiegi k on k.id=w.ksiega_id'
+      'where w.wydanie_id=:id'
+      'order by w.id'
+    )
+    Params = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    Left = 40
+    Top = 160
+    ParamData = <    
+      item
+        DataType = ftUnknown
+        Name = 'id'
+        ParamType = ptUnknown
+      end>
+    object dbksiegiid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+    end
+    object dbksieginazwa: TStringField
+      FieldKind = fkData
+      FieldName = 'nazwa'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      Size = 180
+    end
+  end
+  object dsksiegi: TDataSource
+    AutoEdit = False
+    DataSet = dbksiegi
+    Left = 120
+    Top = 160
+  end
+  object ZSQLMonitor1: TZSQLMonitor
+    AutoSave = True
+    FileName = '/home/tao/monitor.txt'
+    MaxTraceCount = 100
+    Left = 504
+    Top = 208
   end
 end
