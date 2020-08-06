@@ -204,7 +204,7 @@
         <PackageName Value="LCL"/>
       </Item9>
     </RequiredPackages>
-    <Units Count="8">
+    <Units Count="9">
       <Unit0>
         <Filename Value="biblia.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -255,8 +255,13 @@
         <Filename Value="import.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FImport"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit7>
+      <Unit8>
+        <Filename Value="class_import.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit8>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

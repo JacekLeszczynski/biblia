@@ -33,6 +33,7 @@ type
     StatusBar1: TStatusBar;
     swydanierodzaj: TLabel;
     swydanieopis: TLabel;
+    procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure FileImportAcceptFileName(Sender: TObject; var Value: String);
     procedure FileImportButtonClick(Sender: TObject);
@@ -41,6 +42,7 @@ type
   private
     tekst: TStrings;
     procedure plik_getinfo(aPlik: string);
+    function x2enter(s: string): string;
   public
   end;
 
@@ -50,7 +52,7 @@ var
 implementation
 
 uses
-  ecode;
+  ecode, serwis, class_import;
 
 {$R *.lfm}
 
@@ -65,6 +67,38 @@ end;
 procedure TFImport.BitBtn2Click(Sender: TObject);
 begin
   close;
+end;
+
+procedure TFImport.BitBtn1Click(Sender: TObject);
+var
+  ii: TImport;
+  i: integer;
+  s,s1,s2: string;
+begin
+  ii:=TImport.Create(dm.db);
+  try
+    for i:=0 to tekst.Count-1 do
+    begin
+      s:=trim(tekst[i]);
+      if s='' then continue;
+      if s[1]='$' then
+      begin
+        s1:=GetLineToStr(s,1,'=');
+        s2:=x2enter(GetLineToStr(s,2,'='));
+        if s1='$wydanie' then ii.wydanie_nazwa:=s2 else
+        if s1='$wydanie_rodzaj' then ii.wydanie_rodzaj:=s2 else
+        if s1='$wydanie_url' then ii.wydanie_url:=s2 else
+        if s1='$wydanie_opis' then ii.wydanie_opis:=s2 else
+        if s1='$wydanie_komentarz' then ii.wydanie_komentarz:=s2 else
+        if s1='$wydanie_rodzina' then ii.wydanie_rodzina:=s2 else
+        if s1='$rk_rodzaj' then break else
+        if s1='$ks_rodzaj' then break;
+      end;
+
+    end;
+  finally
+    ii.Free;
+  end;
 end;
 
 procedure TFImport.FileImportButtonClick(Sender: TObject);
@@ -120,12 +154,12 @@ begin
   (* wczytanie danych nagłówka *)
   for i:=0 to tekst.Count-1 do
   begin
-    s:=tekst[i];
+    s:=trim(tekst[i]);
     if s='' then continue;
     if s[1]='$' then
     begin
       s1:=GetLineToStr(s,1,'=');
-      s2:=GetLineToStr(s,2,'=');
+      s2:=x2enter(GetLineToStr(s,2,'='));
       if s1='$wydanie' then swydanie.Caption:=s2 else
       if s1='$wydanie_rodzaj' then swydanierodzaj.Caption:=s2 else
       if s1='$wydanie_url' then swydanieurl.Caption:=s2 else
@@ -137,6 +171,16 @@ begin
     end;
     if i>20 then break;
   end;
+end;
+
+function TFImport.x2enter(s: string): string;
+begin
+  s:=trim(s);
+  s:=StringReplace(s,'{$10}',#10,[rfReplaceAll]);
+  s:=StringReplace(s,'{$13}',#13,[rfReplaceAll]);
+  s:=StringReplace(s,'{$1}','''',[rfReplaceAll]);
+  s:=StringReplace(s,'{$2}','"',[rfReplaceAll]);
+  result:=s;
 end;
 
 end.

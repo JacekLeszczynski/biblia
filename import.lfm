@@ -277,6 +277,7 @@ object FImport: TFImport
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
     Caption = 'Importuj'
+    OnClick = BitBtn1Click
     TabOrder = 2
   end
   object BitBtn2: TBitBtn
