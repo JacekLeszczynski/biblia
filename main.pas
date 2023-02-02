@@ -7,8 +7,8 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Buttons, StdCtrls,
   Menus, ExtCtrls, XMLPropStorage, ComCtrls, DBGrids, DBCtrls, ZDataset, ueled,
-  ExtMessage, Presentation, DSMaster, db, HtmlView, HtmlGlobals,
-  HTMLUn2, Types, HTMLSubs;
+  ExtMessage, Presentation, DSMaster,
+  db, HtmlView, HtmlGlobals, HTMLUn2, Types, HTMLSubs;
 
 type
 
@@ -24,6 +24,8 @@ type
     c_rozdzialy: TComboBox;
     c_wydania: TComboBox;
     c_interpretacje: TCheckBox;
+    MenuItem16: TMenuItem;
+    MenuItem17: TMenuItem;
     master: TDSMaster;
     dsnotatnik: TDataSource;
     dbfindcount: TZQuery;
@@ -138,6 +140,7 @@ type
     procedure MenuItem12Click(Sender: TObject);
     procedure MenuItem13Click(Sender: TObject);
     procedure MenuItem15Click(Sender: TObject);
+    procedure MenuItem16Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
@@ -155,7 +158,6 @@ type
     procedure MenuItem3Click(Sender: TObject);
   private
     l_wydania,l_ksiegi: TStringList;
-    procedure goto_adres(aStr: string; aFind: string = '');
     procedure zaladuj(aZawartosc: integer);
     function wybierz(aZawartosc: integer): boolean;
     procedure zmiana(aTryb: integer = 0);
@@ -164,7 +166,7 @@ type
     procedure opt_wczytaj(aOpt: string);
     procedure load;
   public
-
+    procedure goto_adres(aStr: string; aFind: string = '');
   end;
 
 var
@@ -173,7 +175,7 @@ var
 implementation
 
 uses
-  ecode, serwis, lcltype, edycja_wersetu, notatnik, eksport, import;
+  ecode, serwis, lcltype, edycja_wersetu, notatnik, eksport, import, clipbrd;
 
 {$R *.lfm}
 
@@ -781,6 +783,14 @@ procedure TFMain.MenuItem15Click(Sender: TObject);
 begin
   FImport:=TFImport.Create(self);
   FImport.ShowModal;
+end;
+
+procedure TFMain.MenuItem16Click(Sender: TObject);
+var
+  s: string;
+begin
+  s:=IntToStr(c_wydania.ItemIndex)+'-'+IntToStr(c_ksiegi.ItemIndex)+'-'+IntToStr(c_rozdzialy.ItemIndex)+'-'+IntToStr(www.VScrollBarPosition);
+  clipboard.AsText:=s;
 end;
 
 procedure TFMain.MenuItem6Click(Sender: TObject);

@@ -76,7 +76,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../lib"/>
+            <OtherUnitFiles Value="../../lib;../../components/extlazarus"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -177,25 +177,25 @@
     </RunParams>
     <RequiredPackages Count="9">
       <Item1>
-        <PackageName Value="Abbrevia"/>
+        <PackageName Value="ExtLazarus"/>
       </Item1>
       <Item2>
-        <PackageName Value="pl_ExCompress"/>
+        <PackageName Value="Abbrevia"/>
       </Item2>
       <Item3>
-        <PackageName Value="lazreport"/>
+        <PackageName Value="pl_ExCompress"/>
       </Item3>
       <Item4>
-        <PackageName Value="uEControls"/>
+        <PackageName Value="lazreport"/>
       </Item4>
       <Item5>
-        <PackageName Value="FCL"/>
+        <PackageName Value="uEControls"/>
       </Item5>
       <Item6>
-        <PackageName Value="FrameViewer09"/>
+        <PackageName Value="FCL"/>
       </Item6>
       <Item7>
-        <PackageName Value="ExtLazarus"/>
+        <PackageName Value="FrameViewer09"/>
       </Item7>
       <Item8>
         <PackageName Value="zcomponent"/>

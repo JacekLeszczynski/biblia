@@ -1,7 +1,7 @@
 object FMain: TFMain
-  Left = 354
+  Left = 2268
   Height = 695
-  Top = 188
+  Top = 203
   Width = 861
   Caption = 'Biblia'
   ClientHeight = 668
@@ -13,7 +13,7 @@ object FMain: TFMain
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   SessionProperties = 'BitBtn5.Caption;c_interpretacje.Checked;Height;Left;Top;wer_force_enter.ItemIndex;Width;WindowState'
-  LCLVersion = '2.0.10.0'
+  LCLVersion = '2.0.12.0'
   object Panel1: TPanel
     Left = 602
     Height = 668
@@ -30,8 +30,8 @@ object FMain: TFMain
       AnchorSideRight.Control = c_ksiegi
       AnchorSideRight.Side = asrBottom
       Left = 5
-      Height = 17
-      Top = 125
+      Height = 19
+      Top = 128
       Width = 249
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 4
@@ -44,8 +44,8 @@ object FMain: TFMain
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Side = asrBottom
       Left = 5
-      Height = 30
-      Top = 296
+      Height = 31
+      Top = 304
       Width = 249
       Anchors = [akTop, akLeft, akRight]
       OnKeyDown = Edit1KeyDown
@@ -56,8 +56,8 @@ object FMain: TFMain
       AnchorSideTop.Control = c_interpretacje
       AnchorSideTop.Side = asrBottom
       Left = 5
-      Height = 17
-      Top = 279
+      Height = 19
+      Top = 285
       Width = 101
       BorderSpacing.Top = 4
       Caption = 'Wyszukaj tekst:'
@@ -68,7 +68,7 @@ object FMain: TFMain
       AnchorSideTop.Control = Panel2
       AnchorSideTop.Side = asrBottom
       Left = 5
-      Height = 17
+      Height = 19
       Top = 72
       Width = 91
       BorderSpacing.Left = 4
@@ -83,7 +83,7 @@ object FMain: TFMain
       AnchorSideRight.Side = asrBottom
       Left = 88
       Height = 30
-      Top = 330
+      Top = 339
       Width = 166
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 4
@@ -97,7 +97,7 @@ object FMain: TFMain
       AnchorSideTop.Side = asrBottom
       Left = 5
       Height = 30
-      Top = 330
+      Top = 339
       Width = 75
       BorderSpacing.Top = 4
       Caption = 'Ilość'
@@ -109,7 +109,7 @@ object FMain: TFMain
       AnchorSideRight.Control = uELED2
       Left = 206
       Height = 24
-      Top = 251
+      Top = 257
       Width = 24
       Debug = False
       Active = False
@@ -127,7 +127,7 @@ object FMain: TFMain
       AnchorSideRight.Side = asrBottom
       Left = 230
       Height = 24
-      Top = 251
+      Top = 257
       Width = 24
       Debug = False
       Active = False
@@ -158,7 +158,7 @@ object FMain: TFMain
         AnchorSideLeft.Control = Panel2
         AnchorSideTop.Control = Panel2
         Left = 8
-        Height = 17
+        Height = 19
         Top = 4
         Width = 103
         BorderSpacing.Left = 8
@@ -173,8 +173,8 @@ object FMain: TFMain
         AnchorSideRight.Control = Panel2
         AnchorSideRight.Side = asrBottom
         Left = 8
-        Height = 32
-        Top = 21
+        Height = 33
+        Top = 23
         Width = 241
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Right = 8
@@ -192,7 +192,7 @@ object FMain: TFMain
       AnchorSideRight.Side = asrBottom
       Left = 5
       Height = 66
-      Top = 182
+      Top = 188
       Width = 249
       Anchors = [akTop, akLeft, akRight]
       AutoFill = True
@@ -221,7 +221,7 @@ object FMain: TFMain
       AnchorSideTop.Side = asrBottom
       Left = 5
       Height = 23
-      Top = 252
+      Top = 258
       Width = 165
       BorderSpacing.Top = 4
       Caption = 'Pokazuj interpretacje'
@@ -268,8 +268,8 @@ object FMain: TFMain
       AnchorSideRight.Control = Panel1
       AnchorSideRight.Side = asrBottom
       Left = 5
-      Height = 32
-      Top = 89
+      Height = 33
+      Top = 91
       Width = 249
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 4
@@ -285,8 +285,8 @@ object FMain: TFMain
       AnchorSideRight.Control = Panel1
       AnchorSideRight.Side = asrBottom
       Left = 5
-      Height = 32
-      Top = 142
+      Height = 33
+      Top = 147
       Width = 249
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 4
@@ -303,8 +303,8 @@ object FMain: TFMain
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = BitBtn4
       Left = 5
-      Height = 265
-      Top = 364
+      Height = 256
+      Top = 373
       Width = 249
       Anchors = [akTop, akLeft, akRight, akBottom]
       AutoEdit = False
@@ -1193,8 +1193,8 @@ object FMain: TFMain
     Top = 280
   end
   object pm_notatnik: TPopupMenu
-    Left = 680
-    Top = 431
+    Left = 280
+    Top = 400
     object MenuItem10: TMenuItem
       Caption = 'Dodaj pozycję'
       OnClick = MenuItem10Click
@@ -1206,6 +1206,13 @@ object FMain: TFMain
     object MenuItem12: TMenuItem
       Caption = 'Usuń pozycję'
       OnClick = MenuItem12Click
+    end
+    object MenuItem17: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem16: TMenuItem
+      Caption = 'Skopiuj pozycję do schowka'
+      OnClick = MenuItem16Click
     end
   end
   object master: TDSMaster
