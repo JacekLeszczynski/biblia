@@ -87,12 +87,13 @@ end;
 
 procedure TBiblia.share_OnMessage(Sender: TObject; AMessage: string);
 var
-  s1: string;
-  s2: string;
+  s1,s2,s3,s4: string;
 begin
   s1:=GetLineToStr(AMessage,1,'=');
   s2:=GetLineToStr(AMessage,2,'=');
-  if s1='key' then FMain.goto_adres(s2);
+  s3:=GetLineToStr(s2,1,',');
+  s4:=GetLineToStr(s2,2,',');
+  if s1='key' then FMain.goto_adres(s3,s4);
 end;
 
 constructor TBiblia.Create(TheOwner: TComponent);

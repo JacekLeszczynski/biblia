@@ -3,8 +3,8 @@ object dm: Tdm
   OnDestroy = DataModuleDestroy
   OldCreateOrder = False
   Height = 501
-  HorizontalOffset = 344
-  VerticalOffset = 496
+  HorizontalOffset = 1438
+  VerticalOffset = 506
   Width = 425
   object db: TZConnection
     ControlsCodePage = cCP_UTF8
@@ -34,6 +34,7 @@ object dm: Tdm
     Method = mePost
     Mimetype = '<auto>'
     UserAgent = '<auto>'
+    Filtering = False
     Left = 208
     Top = 24
   end
